@@ -1,0 +1,3054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuaderno Único Docente 2026</title>
+  <link rel="manifest" href="/manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Brush+Script+MT&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: 'Roboto', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+    
+    /* ==================== HEADER ==================== */
+    header { 
+      text-align:center; 
+      padding:2rem 1rem; 
+      color:#fff; 
+      position: relative;
+      display: none;
+    }
+    
+    .titulo-principal {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 3.5rem;
+      margin: 0 0 1rem 0;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+      border: 3px dashed rgba(255,255,255,0.5);
+      border-radius: 20px;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .anio-caja {
+      border: 3px dashed rgba(255,255,255,0.5);
+      border-radius: 20px;
+      padding: 1rem 3rem;
+      display: inline-block;
+      margin: 1rem 0;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .anio-caja h2 {
+      font-size: 4rem;
+      margin: 0;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .campo-editable {
+      border: 3px dashed rgba(255,255,255,0.5);
+      border-radius: 20px;
+      padding: 1rem 2rem;
+      margin: 0.5rem auto;
+      min-width: 300px;
+      display: inline-block;
+      background: rgba(255,255,255,0.1);
+      font-size: 1.5rem;
+      cursor: text;
+      transition: all 0.3s;
+      color: white;
+    }
+    .campo-editable:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .campo-editable:focus {
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+    }
+    
+    .label-header {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    /* ==================== BOTÓN INICIO GRANDE ==================== */
+    .btn-inicio-grande {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+      color: white;
+      border: none;
+      padding: 1.5rem 4rem;
+      font-size: 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      margin-top: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .btn-inicio-grande:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+    
+    /* ==================== NAVEGACIÓN ==================== */
+    nav { 
+      background: #5a9fd4; 
+      padding: 1.5rem 1rem; 
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: none; /* Oculto por defecto */
+    }
+    nav.visible {
+      display: block;
+    }
+    
+    nav button { 
+      margin: 0.5rem; 
+      padding: 1rem 1.5rem; 
+      font-size: 1.1rem; 
+      border: none; 
+      border-radius: 20px; 
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      color: white;
+    }
+    nav button:hover { 
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    
+    .btn-inicio { background: #FF6B6B; }
+    .btn-calendario { background: #4ECDC4; }
+    .btn-horario { background: #A29BFE; color: #fff !important; }
+
+    /* ===== HORARIO ===== */
+    .horario-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .horario-table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.7rem 0.4rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .horario-table td {
+      border: 1px solid #e0e0e0;
+      padding: 0;
+      vertical-align: middle;
+    }
+    .horario-table td input {
+      width: 100%;
+      border: none;
+      padding: 0.55rem 0.4rem;
+      font-size: 0.82rem;
+      text-align: center;
+      background: transparent;
+      font-family: 'Roboto', sans-serif;
+      box-sizing: border-box;
+    }
+    .horario-table td input:focus {
+      outline: none;
+      background: #f0f0ff;
+    }
+    .horario-table tr:nth-child(even) td {
+      background: #f9f9ff;
+    }
+    .horario-table td.hora-col input {
+      font-weight: 700;
+      color: #764ba2;
+      background: #f3f0ff;
+    }
+    .horario-btn-limpiar {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+    .btn-estudiantes { background: #45B7D1; }
+    .btn-asistencia { background: #96CEB4; color: #333 !important; }
+    .btn-reuniones { background: #FFEAA7; color: #333 !important; }
+    .btn-comisiones { background: #DDA0DD; color: #333 !important; }
+    .btn-visitas { background: #98D8C8; color: #333 !important; }
+    .btn-permisos { background: #F7DC6F; color: #333 !important; }
+    .btn-circulares { background: #BB8FCE; }
+    .btn-actividades { background: #85C1E2; }
+    .btn-inventario { background: #F8C471; color: #333 !important; }
+    .btn-estadisticas { background: #82E0AA; color: #333 !important; }
+    .btn-asuntos { background: #8d6e63; }
+    .btn-backup { background: #E74C3C; }
+    .btn-pdf { background: #34495e; }
+    
+    /* ==================== SECCIONES ==================== */
+    section { 
+      padding: 2rem 1rem; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      display: none !important;
+      background: rgba(255,255,255,0.95);
+      min-height: calc(100vh - 400px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    section.active { 
+      display: block !important; 
+      opacity: 1;
+    }
+    #portada.active {
+      display: flex !important;
+    }
+    section.fade-in {
+      animation: fadeIn 0.3s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* ==================== PANTALLA PORTADA ==================== */
+    #portada {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      /* display:flex se aplica SOLO cuando está activa, abajo */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 100%;
+      padding: 2rem;
+    }
+    #portada .titulo-principal {
+      font-size: 4rem;
+      margin-bottom: 2rem;
+    }
+    #portada .anio-caja h2 {
+      font-size: 6rem;
+    }
+    #portada .campo-editable {
+      font-size: 1.8rem;
+      min-width: 400px;
+    }
+    
+    /* ==================== PANTALLA BIENVENIDA ==================== */
+    #bienvenida {
+      background: rgba(255,255,255,0.95);
+    }
+    .btn-funcionalidades {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1.2rem 3rem;
+      font-size: 1.3rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      display: block;
+      margin: 2rem auto;
+    }
+    .btn-funcionalidades:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    
+    /* ==================== PANTALLA FUNCIONALIDADES ==================== */
+    #funcionalidades {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: calc(100vh - 100px);
+      max-width: 100%;
+      padding: 2rem;
+    }
+    /* Funcionalidades usa block normal, pero el max-width:100% necesita confirmarse con active */
+    #funcionalidades.active {
+      display: block !important;
+    }
+    .grid-funcionalidades {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .btn-funcion {
+      padding: 2rem;
+      border: none;
+      border-radius: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      min-height: 100px;
+    }
+    .btn-funcion:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+    }
+    
+    .section-title {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: 2px solid #e0e0e0;
+    }
+    
+    /* ==================== SELECTOR DE GRADOS ==================== */
+    .grados-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .grado-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border: 3px solid transparent;
+    }
+    .grado-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      border-color: rgba(255,255,255,0.5);
+    }
+    .grado-card h3 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .grado-card p {
+      margin: 0.5rem 0 0 0;
+      opacity: 0.9;
+    }
+    
+    /* ==================== TABLAS Y FORMULARIOS ==================== */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #555;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    
+    .btn {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn-success { background: #27ae60; }
+    .btn-danger { background: #e74c3c; }
+    .btn-warning { background: #f39c12; }
+    .btn-info { background: #3498db; }
+    .btn-dark { background: #2c3e50; }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    tr:hover { background: #f5f5f5; }
+    
+    .checkbox-estudiante {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    /* ==================== IMPORT/EXPORT ==================== */
+    .import-area {
+      border: 3px dashed #4a90e2;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      background: #f8f9fa;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+    .import-area:hover {
+      background: #e3f2fd;
+      border-color: #2196f3;
+    }
+    .import-area.dragover {
+      background: #bbdefb;
+      border-color: #1976d2;
+      transform: scale(1.02);
+    }
+    
+    /* ==================== BACKUP/RESTORE ==================== */
+    .backup-status {
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    .backup-success { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+    .backup-error { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+    .backup-info { background: #d1ecf1; color: #0c5460; border: 2px solid #bee5eb; }
+    
+    .backup-preview {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    
+    .backup-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .stat-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .stat-box h4 { margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.9; }
+    .stat-box p { margin: 0; font-size: 1.5rem; font-weight: bold; }
+    
+    /* ==================== CALENDARIO ==================== */
+    .calendario-anual { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 1.5rem; 
+      margin: 2rem 0; 
+    }
+    .mes-mini { 
+      background: white; 
+      padding: 1rem; 
+      border-radius: 15px; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+      text-align: center;
+    }
+    .mes-mini h4 { margin: 0 0 0.8rem; color: #764ba2; font-size: 1.2rem; }
+    .mes-mini table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .mes-mini th, .mes-mini td { 
+      border: 1px solid #ddd; 
+      padding: 8px; 
+      text-align: center;
+      cursor: pointer;
+    }
+    .mes-mini td:hover { background: #e3f2fd; }
+    .dia-con-evento { position: relative; }
+    .dia-con-evento::after {
+      content: '•';
+      color: #e74c3c;
+      font-size: 2rem;
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .highlight-org { background: #fffacd; font-weight: bold; }
+    .highlight-inicio { background: #ffcccc; font-weight: bold; }
+    .highlight-receso { background: #d4edda; }
+    .highlight-fin { background: #ffe6cc; }
+    
+    /* ==================== MODAL ==================== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    /* ==================== PDF SELECTOR ==================== */
+    .pdf-selector {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 999;
+      max-width: 350px;
+      display: none;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .pdf-selector.active { display: block; }
+    .pdf-option {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+    .pdf-option:hover { background: #f0f0f0; border-radius: 5px; }
+    .pdf-option input { margin-right: 0.5rem; }
+    
+    footer { 
+      text-align: center; 
+      padding: 1.5rem; 
+      background: #5a9fd4; 
+      color: white; 
+    }
+    
+    .hidden { display: none !important; }
+
+    /* ===== BOTÓN REGRESAR ===== */
+    .btn-regresar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0,0,0,0.18);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.6);
+      border-radius: 2rem;
+      padding: 0.45rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin: 0.8rem 0 0 0.8rem;
+      transition: background 0.2s, transform 0.15s;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+    .btn-regresar:active {
+      transform: scale(0.95);
+      background: rgba(0,0,0,0.35);
+    }
+    /* En secciones con fondo blanco (bienvenida, funciones) el botón usa fondo oscuro */
+    #bienvenida .btn-regresar,
+    #calendario .btn-regresar,
+    #estudiantes .btn-regresar,
+    #asistencia .btn-regresar,
+    #reuniones .btn-regresar,
+    #comisiones .btn-regresar,
+    #visitas .btn-regresar,
+    #permisos .btn-regresar,
+    #circulares .btn-regresar,
+    #actividades .btn-regresar,
+    #inventario .btn-regresar,
+    #estadisticas .btn-regresar,
+    #asuntos .btn-regresar,
+    #backup .btn-regresar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: transparent;
+      color: white;
+    }
+    .btn-regresar-wrap {
+      display: block;
+      background: transparent;
+    }
+
+    .scroll-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 1.2rem 0 0.5rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+    .scroll-arrow {
+      font-size: 2rem;
+      line-height: 1;
+      animation: bounce-up 1.4s ease-in-out infinite;
+    }
+    @keyframes bounce-up {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50%       { transform: translateY(-8px); opacity: 1; }
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 0.8rem 1.2rem;
+      border: none;
+      background: #e0e0e0;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    .evento-item {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      border-left: 4px solid #4a90e2;
+    }
+    
+    .volver-btn {
+      background: #6c757d;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    /* Asistencia styles */
+    .asistencia-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .asistencia-card {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .asistencia-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .asistencia-card.presente {
+      border-color: #27ae60;
+      background: #d4edda;
+    }
+    .asistencia-card.ausente {
+      border-color: #e74c3c;
+      background: #f8d7da;
+    }
+    
+    /* Prioridades */
+    .prioridad-alta { border-left: 5px solid #e74c3c; }
+    .prioridad-media { border-left: 5px solid #f39c12; }
+    .prioridad-baja { border-left: 5px solid #27ae60; }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER EDITABLE ==================== -->
+  <header id="mainHeader">
+    <h1 class="titulo-principal" contenteditable="true" id="tituloCuaderno" onblur="guardarDato('titulo', this.innerText)">Cuaderno Único Docente</h1>
+    
+    <div class="anio-caja">
+      <h2 contenteditable="true" id="anioEscolar" onblur="guardarDato('anio', this.innerText)">2026</h2>
+    </div>
+    
+    <p class="label-header">Docente:</p>
+    <p class="campo-editable" contenteditable="true" id="nombreDocente" onblur="guardarDato('docente', this.innerText)">José R. White</p>
+    
+    <p class="label-header">Centro Educativo:</p>
+    <p class="campo-editable" contenteditable="true" id="nombreEscuela" onblur="guardarDato('escuela', this.innerText)">..........................................................</p>
+    
+    <p class="label-header">Grado:</p>
+    <p class="campo-editable" contenteditable="true" id="gradoEscolar" onblur="guardarDato('grado', this.innerText)">........................................</p>
+  </header>
+
+  <!-- ==================== NAVEGACIÓN (Oculta inicialmente) ==================== -->
+  <nav id="mainNav">
+    <button class="btn-inicio" onclick="mostrarSeccion('bienvenida', this)">🏠 Inicio</button>
+    <button class="btn-calendario" onclick="mostrarSeccion('calendario', this)">📅 Calendario</button>
+    <button class="btn-estudiantes" onclick="mostrarSeccion('estudiantes', this)">👥 Estudiantes</button>
+    <button class="btn-asistencia" onclick="mostrarSeccion('asistencia', this)">📋 Asistencia</button>
+    <button class="btn-reuniones" onclick="mostrarSeccion('reuniones', this)">🤝 Reuniones</button>
+    <button class="btn-comisiones" onclick="mostrarSeccion('comisiones', this)">👥 Comisiones</button>
+    <button class="btn-visitas" onclick="mostrarSeccion('visitas', this)">🚗 Visitas</button>
+    <button class="btn-permisos" onclick="mostrarSeccion('permisos', this)">📝 Permisos</button>
+    <button class="btn-circulares" onclick="mostrarSeccion('circulares', this)">📄 Circulares</button>
+    <button class="btn-actividades" onclick="mostrarSeccion('actividades', this)">💰 Act. Económicas</button>
+    <button class="btn-inventario" onclick="mostrarSeccion('inventario', this)">📦 Inventario</button>
+    <button class="btn-estadisticas" onclick="mostrarSeccion('estadisticas', this)">📊 Estadísticas</button>
+    <button class="btn-asuntos" onclick="mostrarSeccion('asuntos', this)">📋 Asuntos Varios</button>
+    <button class="btn-backup" onclick="mostrarSeccion('backup', this)">💾 Backup</button>
+    <button class="btn-horario" onclick="mostrarSeccion('horario', this)">🕐 Horario</button>
+    <button class="btn-pdf" onclick="mostrarSelectorPDF()">📄 Exportar PDF</button>
+  </nav>
+
+  <main>
+    <!-- ==================== PANTALLA 1: PORTADA ==================== -->
+    <section id="portada" class="active">
+      <h1 class="titulo-principal" contenteditable="true" id="tituloPortada" onblur="guardarDato('titulo', this.innerText)">Cuaderno Único Docente</h1>
+      
+      <div class="anio-caja">
+        <h2 contenteditable="true" id="anioPortada" onblur="guardarDato('anio', this.innerText)">2026</h2>
+      </div>
+      
+      <p class="label-header">Docente:</p>
+      <p class="campo-editable" contenteditable="true" id="docentePortada" onblur="guardarDato('docente', this.innerText)">José R. White</p>
+      
+      <p class="label-header">Centro Educativo:</p>
+      <p class="campo-editable" contenteditable="true" id="escuelaPortada" onblur="guardarDato('escuela', this.innerText)">..........................................................</p>
+      
+      <p class="label-header">Grado:</p>
+      <p class="campo-editable" contenteditable="true" id="gradoPortada" onblur="guardarDato('grado', this.innerText)">........................................</p>
+      
+      <button class="btn-inicio-grande" onclick="irABienvenida()">
+        🚀 INICIAR
+      </button>
+    </section>
+
+    <!-- ==================== PANTALLA 2: BIENVENIDA ==================== -->
+    <section id="bienvenida">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="regresarAPortada()">← Portada</button></div>
+      <div class="section-title">📚 Bienvenido al Cuaderno Único Docente</div>
+      
+      <div class="card">
+        <h3>✏️ Datos Editables</h3>
+        <p>Haz <strong>clic en cualquier texto</strong> en la parte superior para editar:</p>
+        <ul>
+          <li>📝 Nombre del docente</li>
+          <li>🏫 Centro educativo</li>
+          <li>🎓 Grado asignado</li>
+          <li>📅 Año escolar</li>
+          <li>📖 Título del cuaderno</li>
+        </ul>
+        <p>Los cambios se guardan automáticamente.</p>
+      </div>
+      
+      <div class="card">
+        <h3>💾 Copia de Seguridad</h3>
+        <p>Ve a la sección <strong>Backup</strong> para:</p>
+        <ul>
+          <li>📥 Exportar todos tus datos a un archivo</li>
+          <li>📤 Restaurar desde un archivo anterior</li>
+          <li>📋 Copiar datos al portapapeles para compartir</li>
+        </ul>
+        <button class="btn btn-backup" onclick="mostrarSeccion('backup')">Ir a Backup</button>
+      </div>
+      
+      <div class="card">
+        <h3>👥 Gestión por Grados</h3>
+        <p>Como docente de inglés, puedes administrar <strong>8 grados</strong>:</p>
+        <p style="font-size: 1.2rem; color: #764ba2; font-weight: bold;">Pre-K | Kinder | 1° | 2° | 3° | 4° | 5° | 6°</p>
+      </div>
+      
+      <div class="card">
+        <h3>📅 Calendario Escolar 2026</h3>
+        <p><strong>📋 Organización docente:</strong> 23-27 de febrero</p>
+        <p><strong>🎒 Inicio de clases:</strong> 2 de marzo</p>
+        <p><strong>🏖️ Recesos:</strong> 1-5 de junio | 7-11 de septiembre</p>
+        <p><strong>🎓 Fin de clases:</strong> 11 de diciembre</p>
+      </div>
+
+      <button class="btn-funcionalidades" onclick="irAFuncionalidades()">
+        ⚡ Ir a Funcionalidades
+      </button>
+    </section>
+
+    <!-- ==================== PANTALLA 3: FUNCIONALIDADES (GRID BOTONES) ==================== -->
+    <section id="funcionalidades">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irABienvenida()">← Inicio</button></div>
+      <div class="section-title" style="color: white; background: rgba(255,255,255,0.2);">🛠️ Panel de Funcionalidades</div>
+      
+      <div class="grid-funcionalidades">
+        <button class="btn-funcion btn-inicio" onclick="mostrarSeccion('bienvenida')">
+          🏠 Inicio
+        </button>
+        <button class="btn-funcion btn-calendario" onclick="mostrarSeccion('calendario')">
+          📅 Calendario
+        </button>
+        <button class="btn-funcion btn-estudiantes" onclick="mostrarSeccion('estudiantes')">
+          👥 Estudiantes
+        </button>
+        <button class="btn-funcion btn-asistencia" onclick="mostrarSeccion('asistencia')">
+          📋 Asistencia
+        </button>
+        <button class="btn-funcion btn-reuniones" onclick="mostrarSeccion('reuniones')">
+          🤝 Reuniones
+        </button>
+        <button class="btn-funcion btn-comisiones" onclick="mostrarSeccion('comisiones')">
+          👥 Comisiones
+        </button>
+        <button class="btn-funcion btn-visitas" onclick="mostrarSeccion('visitas')">
+          🚗 Visitas
+        </button>
+        <button class="btn-funcion btn-permisos" onclick="mostrarSeccion('permisos')">
+          📝 Permisos
+        </button>
+        <button class="btn-funcion btn-circulares" onclick="mostrarSeccion('circulares')">
+          📄 Circulares
+        </button>
+        <button class="btn-funcion btn-actividades" onclick="mostrarSeccion('actividades')">
+          💰 Act. Económicas
+        </button>
+        <button class="btn-funcion btn-inventario" onclick="mostrarSeccion('inventario')">
+          📦 Inventario
+        </button>
+        <button class="btn-funcion btn-estadisticas" onclick="mostrarSeccion('estadisticas')">
+          📊 Estadísticas
+        </button>
+        <button class="btn-funcion btn-asuntos" onclick="mostrarSeccion('asuntos')">
+          📋 Asuntos Varios
+        </button>
+        <button class="btn-funcion btn-backup" onclick="mostrarSeccion('backup')">
+          💾 Backup
+        </button>
+        <button class="btn-funcion btn-horario" onclick="mostrarSeccion('horario')">
+          🕐 Horario
+        </button>
+        <button class="btn-funcion btn-pdf" onclick="mostrarSelectorPDF()">
+          📄 Exportar PDF
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== SECCIÓN CALENDARIO ==================== -->
+    <section id="calendario">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📅 Calendario-Agenda 2026</div>
+      <div class="card">
+        <p style="color: #666; margin-bottom: 1rem;"><em>Haz clic en cualquier día para agregar eventos</em></p>
+        <div class="calendario-anual" id="calendarioContainer"></div>
+      </div>
+      <div class="card">
+        <h3>📋 Próximos Eventos</h3>
+        <div id="listaEventosProximos"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ESTUDIANTES - SELECTOR DE GRADOS -->
+    <section id="estudiantes">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div id="selectorGrados">
+        <div class="section-title">👥 Selecciona un Grado</div>
+        <div class="grados-grid">
+          <div class="grado-card" onclick="seleccionarGrado('prek')">
+            <h3>🧸 Pre-K</h3>
+            <p id="count-prek">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('kinder')">
+            <h3>🎨 Kinder</h3>
+            <p id="count-kinder">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('1grado')">
+            <h3>1️⃣ 1° Grado</h3>
+            <p id="count-1grado">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('2grado')">
+            <h3>2️⃣ 2° Grado</h3>
+            <p id="count-2grado">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('3grado')">
+            <h3>3️⃣ 3° Grado</h3>
+            <p id="count-3grado">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('4grado')">
+            <h3>4️⃣ 4° Grado</h3>
+            <p id="count-4grado">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('5grado')">
+            <h3>5️⃣ 5° Grado</h3>
+            <p id="count-5grado">0 estudiantes</p>
+          </div>
+          <div class="grado-card" onclick="seleccionarGrado('6grado')">
+            <h3>6️⃣ 6° Grado</h3>
+            <p id="count-6grado">0 estudiantes</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA DE GRADO ESPECÍFICO -->
+      <div id="vistaGrado" class="hidden">
+        <div class="section-title" id="tituloGrado">👥 Estudiantes</div>
+        
+        <button class="btn volver-btn" onclick="volverAGrados()">← Volver a Grados</button>
+        
+        <!-- IMPORTAR CSV -->
+        <div class="card">
+          <h3>📥 Importar Estudiantes desde CSV</h3>
+          <div class="import-area" id="dropZone">
+            <p style="font-size: 3rem;">📄</p>
+            <p>Arrastra un archivo CSV aquí o haz clic para seleccionar</p>
+            <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="procesarCSV(this.files[0])">
+            <button class="btn btn-info" onclick="document.getElementById('csvFileInput').click()">Seleccionar Archivo</button>
+          </div>
+          <p style="color: #666; font-size: 0.9rem;">
+            <strong>Formato CSV:</strong> nombre,cedula,fecha_nac,telefono,email,direccion,observaciones<br>
+            <em>La primera fila debe ser el encabezado</em>
+          </p>
+        </div>
+
+        <!-- AGREGAR MANUAL -->
+        <div class="card">
+          <h3>➕ Agregar Estudiante Manual</h3>
+          <div class="form-group">
+            <label>Nombre completo:</label>
+            <input type="text" id="nombreEstudiante" placeholder="Apellidos, Nombres">
+          </div>
+          <div class="form-group">
+            <label>Cédula/Pasaporte:</label>
+            <input type="text" id="cedulaEstudiante" placeholder="X-XXX-XXXX">
+          </div>
+          <div class="form-group">
+            <label>Fecha de nacimiento:</label>
+            <input type="date" id="fechaNacimiento">
+          </div>
+          <div class="form-group">
+            <label>Teléfono:</label>
+            <input type="tel" id="telefonoPadre" placeholder="6XXX-XXXX">
+          </div>
+          <div class="form-group">
+            <label>Correo:</label>
+            <input type="email" id="emailPadre" placeholder="correo@ejemplo.com">
+          </div>
+          <div class="form-group">
+            <label>Dirección:</label>
+            <textarea id="direccion" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Observaciones:</label>
+            <textarea id="observaciones" rows="2"></textarea>
+          </div>
+          <button class="btn btn-success" onclick="agregarEstudiante()">➕ Agregar Estudiante</button>
+        </div>
+
+        <!-- EXPORTAR SELECCIONADOS -->
+        <div class="card">
+          <h3>📤 Exportar Estudiantes</h3>
+          <button class="btn btn-info" onclick="seleccionarTodos()">✓ Seleccionar Todos</button>
+          <button class="btn btn-warning" onclick="deseleccionarTodos()">✗ Deseleccionar Todos</button>
+          <button class="btn btn-success" onclick="exportarSeleccionadosCSV()">📄 Exportar Seleccionados a CSV</button>
+        </div>
+
+        <!-- LISTA DE ESTUDIANTES -->
+        <div class="card">
+          <h3>📋 Listado de Estudiantes</h3>
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="checkAll" onchange="toggleTodos(this)"></th>
+                <th>Nombre</th>
+                <th>Cédula</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaEstudiantes"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ASISTENCIA -->
+    <section id="asistencia">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📋 Control de Asistencia</div>
+      
+      <div class="card">
+        <div class="form-group">
+          <label>Seleccionar Grado:</label>
+          <select id="gradoAsistencia" onchange="cargarAsistencia()">
+            <option value="">-- Selecciona un grado --</option>
+            <option value="prek">Pre-K</option>
+            <option value="kinder">Kinder</option>
+            <option value="1grado">1° Grado</option>
+            <option value="2grado">2° Grado</option>
+            <option value="3grado">3° Grado</option>
+            <option value="4grado">4° Grado</option>
+            <option value="5grado">5° Grado</option>
+            <option value="6grado">6° Grado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" id="fechaAsistencia" onchange="cargarAsistencia()">
+        </div>
+      </div>
+
+      <div id="panelAsistencia" class="hidden">
+        <div class="card">
+          <h3>Lista de Asistencia</h3>
+          <div class="asistencia-grid" id="listaAsistencia"></div>
+          <button class="btn btn-success" onclick="guardarAsistencia()" style="margin-top: 1rem;">💾 Guardar Asistencia</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN REUNIONES -->
+    <section id="reuniones">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">🤝 Reuniones</div>
+      
+      <div class="card">
+        <h3>➕ Nueva Reunión</h3>
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" id="fechaReunion">
+        </div>
+        <div class="form-group">
+          <label>Tema:</label>
+          <input type="text" id="temaReunion" placeholder="Tema de la reunión">
+        </div>
+        <div class="form-group">
+          <label>Participantes:</label>
+          <input type="text" id="participantesReunion" placeholder="Nombres de los participantes">
+        </div>
+        <div class="form-group">
+          <label>Acuerdos/Compromisos:</label>
+          <textarea id="acuerdosReunion" rows="4"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarReunion()">➕ Agregar Reunión</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Historial de Reuniones</h3>
+        <div id="listaReuniones"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN COMISIONES -->
+    <section id="comisiones">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">👥 Comisiones de Trabajo</div>
+      
+      <div class="card">
+        <h3>➕ Nueva Comisión</h3>
+        <div class="form-group">
+          <label>Nombre de la Comisión:</label>
+          <input type="text" id="nombreComision" placeholder="Ej: Comisión de Cultura">
+        </div>
+        <div class="form-group">
+          <label>Integrantes:</label>
+          <textarea id="integrantesComision" rows="3" placeholder="Nombres de los integrantes"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Funciones:</label>
+          <textarea id="funcionesComision" rows="3"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarComision()">➕ Agregar Comisión</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Comisiones Activas</h3>
+        <div id="listaComisiones"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN VISITAS -->
+    <section id="visitas">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">🚗 Visitas y Salidas</div>
+      
+      <div class="card">
+        <h3>➕ Registrar Visita/Salida</h3>
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" id="fechaVisita">
+        </div>
+        <div class="form-group">
+          <label>Lugar:</label>
+          <input type="text" id="lugarVisita" placeholder="Destino de la visita">
+        </div>
+        <div class="form-group">
+          <label>Grado(s):</label>
+          <input type="text" id="gradoVisita" placeholder="Ej: 3° y 4° grado">
+        </div>
+        <div class="form-group">
+          <label>Cantidad de Estudiantes:</label>
+          <input type="number" id="cantidadVisita" min="1">
+        </div>
+        <div class="form-group">
+          <label>Docentes Responsables:</label>
+          <input type="text" id="responsablesVisita">
+        </div>
+        <div class="form-group">
+          <label>Observaciones:</label>
+          <textarea id="observacionesVisita" rows="3"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarVisita()">➕ Registrar Visita</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Registro de Visitas</h3>
+        <div id="listaVisitas"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN PERMISOS -->
+    <section id="permisos">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📝 Permisos y Justificativos</div>
+      
+      <div class="card">
+        <h3>➕ Nuevo Permiso</h3>
+        <div class="form-group">
+          <label>Tipo:</label>
+          <select id="tipoPermiso">
+            <option value="personal">Permiso Personal</option>
+            <option value="enfermedad">Permiso por Enfermedad</option>
+            <option value="capacitacion">Capacitación</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha Inicio:</label>
+          <input type="date" id="fechaInicioPermiso">
+        </div>
+        <div class="form-group">
+          <label>Fecha Fin:</label>
+          <input type="date" id="fechaFinPermiso">
+        </div>
+        <div class="form-group">
+          <label>Motivo:</label>
+          <textarea id="motivoPermiso" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Observaciones:</label>
+          <textarea id="obsPermiso" rows="2"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarPermiso()">➕ Agregar Permiso</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Historial de Permisos</h3>
+        <div id="listaPermisos"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CIRCULARES -->
+    <section id="circulares">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📄 Circulares y Comunicados</div>
+      
+      <div class="card">
+        <h3>➕ Nueva Circular</h3>
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" id="fechaCircular">
+        </div>
+        <div class="form-group">
+          <label>Número/Referencia:</label>
+          <input type="text" id="numeroCircular" placeholder="Ej: C-2026-001">
+        </div>
+        <div class="form-group">
+          <label>Asunto:</label>
+          <input type="text" id="asuntoCircular" placeholder="Asunto de la circular">
+        </div>
+        <div class="form-group">
+          <label>Destinatarios:</label>
+          <input type="text" id="destinatariosCircular" placeholder="Ej: Padres de familia, Docentes">
+        </div>
+        <div class="form-group">
+          <label>Contenido:</label>
+          <textarea id="contenidoCircular" rows="5"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarCircular()">➕ Guardar Circular</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Registro de Circulares</h3>
+        <div id="listaCirculares"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ACTIVIDADES ECONÓMICAS -->
+    <section id="actividades">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">💰 Actividades Económicas</div>
+      
+      <div class="card">
+        <h3>➕ Nueva Actividad</h3>
+        <div class="form-group">
+          <label>Nombre de la Actividad:</label>
+          <input type="text" id="nombreActividad" placeholder="Ej: Venta de refrigerios">
+        </div>
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" id="fechaActividad">
+        </div>
+        <div class="form-group">
+          <label>Ingresos:</label>
+          <input type="number" id="ingresosActividad" step="0.01" min="0" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label>Egresos:</label>
+          <input type="number" id="egresosActividad" step="0.01" min="0" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label>Descripción:</label>
+          <textarea id="descActividad" rows="3"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarActividad()">➕ Registrar Actividad</button>
+      </div>
+
+      <div class="card">
+        <h3>📊 Resumen Financiero</h3>
+        <div id="resumenFinanciero"></div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Historial de Actividades</h3>
+        <div id="listaActividades"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN INVENTARIO -->
+    <section id="inventario">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📦 Inventario de Materiales</div>
+      
+      <div class="card">
+        <h3>➕ Agregar Material</h3>
+        <div class="form-group">
+          <label>Material/Ítem:</label>
+          <input type="text" id="nombreMaterial" placeholder="Nombre del material">
+        </div>
+        <div class="form-group">
+          <label>Cantidad:</label>
+          <input type="number" id="cantidadMaterial" min="1" value="1">
+        </div>
+        <div class="form-group">
+          <label>Estado:</label>
+          <select id="estadoMaterial">
+            <option value="bueno">Bueno</option>
+            <option value="regular">Regular</option>
+            <option value="malo">Malo/Necesita reparación</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ubicación:</label>
+          <input type="text" id="ubicacionMaterial" placeholder="Ej: Aula 5, Armario">
+        </div>
+        <div class="form-group">
+          <label>Observaciones:</label>
+          <textarea id="obsMaterial" rows="2"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarMaterial()">➕ Agregar al Inventario</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Inventario Actual</h3>
+        <div id="listaInventario"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ESTADÍSTICAS -->
+    <section id="estadisticas">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📊 Estadísticas del Año Escolar</div>
+      
+      <div class="card">
+        <h3>📈 Resumen General</h3>
+        <div id="resumenEstadisticas"></div>
+      </div>
+      
+      <div class="card">
+        <h3>👥 Estudiantes por Grado</h3>
+        <div id="statsPorGrado"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ASUNTOS VARIOS -->
+    <section id="asuntos">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">📋 Asuntos Varios</div>
+      
+      <div class="card">
+        <h3>➕ Nuevo Asunto</h3>
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" id="fechaAsunto">
+        </div>
+        <div class="form-group">
+          <label>Título:</label>
+          <input type="text" id="tituloAsunto" placeholder="Título del asunto">
+        </div>
+        <div class="form-group">
+          <label>Prioridad:</label>
+          <select id="prioridadAsunto">
+            <option value="alta">🔴 Alta</option>
+            <option value="media">🟡 Media</option>
+            <option value="baja">🟢 Baja</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Descripción:</label>
+          <textarea id="descAsunto" rows="4"></textarea>
+        </div>
+        <button class="btn btn-success" onclick="agregarAsunto()">➕ Agregar Asunto</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Listado de Asuntos</h3>
+        <div id="listaAsuntos"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN HORARIO -->
+    <section id="horario">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">🕐 Horario Semanal</div>
+      <div class="card">
+        <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">Haz clic en cualquier celda para editar. Los cambios se guardan automáticamente.</p>
+        <div style="overflow-x:auto;">
+          <table class="horario-table" id="tablaHorario">
+            <thead>
+              <tr>
+                <th style="width:13%">Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+              </tr>
+            </thead>
+            <tbody id="horarioBody"></tbody>
+          </table>
+        </div>
+        <button class="horario-btn-limpiar" onclick="limpiarHorario()">🗑️ Limpiar horario</button>
+      </div>
+    </section>
+
+    <!-- SECCIÓN BACKUP/RESTORE -->
+    <section id="backup">
+      <div class="btn-regresar-wrap"><button class="btn-regresar" onclick="irAFuncionalidades()">← Funcionalidades</button></div>
+      <div class="section-title">💾 Copia de Seguridad</div>
+      
+      <!-- ESTADÍSTICAS DEL BACKUP -->
+      <div class="card">
+        <h3>📊 Resumen de tus Datos Actuales</h3>
+        <div class="backup-stats" id="backupStats"></div>
+        <p style="color: #666; text-align: center;">
+          Última modificación: <span id="ultimaModificacion">--</span>
+        </p>
+      </div>
+
+      <!-- EXPORTAR BACKUP -->
+      <div class="card">
+        <h3>📥 Crear Copia de Seguridad</h3>
+        <p>Exporta todos tus datos a un archivo que puedes guardar en tu dispositivo o compartir.</p>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+          <button class="btn btn-success" onclick="exportarBackup()">
+            💾 Descargar archivo (.json)
+          </button>
+          <button class="btn btn-info" onclick="copiarAlPortapapeles()">
+            📋 Copiar al portapapeles
+          </button>
+        </div>
+        
+        <div id="mensajeExportar" class="backup-status hidden" style="margin-top: 1rem;"></div>
+      </div>
+
+      <!-- RESTAURAR BACKUP -->
+      <div class="card">
+        <h3>📤 Restaurar desde Copia de Seguridad</h3>
+        <div class="backup-status backup-warning" style="background: #fff3cd; color: #856404; border-color: #ffeaa7;">
+          ⚠️ <strong>Advertencia:</strong> Restaurar reemplazará TODOS tus datos actuales. 
+          Asegúrate de haber exportado primero si quieres conservar algo.
+        </div>
+
+        <div class="import-area" id="backupDropZone" style="margin-top: 1rem;">
+          <p style="font-size: 3rem;">📂</p>
+          <p>Arrastra tu archivo .json aquí o haz clic para seleccionar</p>
+          <input type="file" id="backupFileInput" accept=".json" style="display: none;" onchange="procesarBackup(this.files[0])">
+          <button class="btn btn-warning" onclick="document.getElementById('backupFileInput').click()">
+            Seleccionar archivo de backup
+          </button>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <p>O pega el contenido del backup aquí:</p>
+          <textarea id="backupTextArea" rows="6" placeholder="Pega aquí el código del backup..." style="font-family: monospace; font-size: 0.9rem;"></textarea>
+          <button class="btn btn-warning" onclick="restaurarDesdeTexto()" style="margin-top: 0.5rem;">
+            Restaurar desde texto
+          </button>
+        </div>
+
+        <div id="mensajeRestaurar" class="backup-status hidden" style="margin-top: 1rem;"></div>
+      </div>
+
+      <!-- PREVISUALIZACIÓN DE BACKUP -->
+      <div id="previewBackupCard" class="card hidden">
+        <h3>👁️ Vista previa del Backup</h3>
+        <div class="backup-stats" id="previewStats"></div>
+        <div class="backup-preview" id="previewContenido"></div>
+        <div style="margin-top: 1rem; text-align: center;">
+          <button class="btn btn-success" onclick="confirmarRestauracion()">✅ Confirmar Restauración</button>
+          <button class="btn btn-danger" onclick="cancelarRestauracion()">❌ Cancelar</button>
+        </div>
+      </div>
+
+      <!-- INSTRUCCIONES -->
+      <div class="card">
+        <h3>❓ Cómo usar el Backup</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          <div>
+            <h4>📥 Para guardar tus datos:</h4>
+            <ol>
+              <li>Haz clic en "Descargar archivo"</li>
+              <li>Guarda el archivo en lugar seguro</li>
+              <li>O copia el texto y pégalo en WhatsApp/Email</li>
+            </ol>
+          </div>
+          <div>
+            <h4>📤 Para recuperar datos:</h4>
+            <ol>
+              <li>Busca tu archivo .json anterior</li>
+              <li>Arrástralo a la zona de restaurar</li>
+              <li>Verifica la vista previa</li>
+              <li>Confirma la restauración</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL PARA EVENTOS -->
+  <div id="modalEvento" class="modal">
+    <div class="modal-content">
+      <h3>📅 Agregar Evento</h3>
+      <div class="form-group">
+        <label>Fecha:</label>
+        <input type="text" id="modalFecha" readonly>
+      </div>
+      <div class="form-group">
+        <label>Título:</label>
+        <input type="text" id="tituloEvento" placeholder="Título del evento">
+      </div>
+      <div class="form-group">
+        <label>Descripción:</label>
+        <textarea id="descEvento" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Tipo:</label>
+        <select id="tipoEvento">
+          <option value="reunion">Reunión</option>
+          <option value="entrega">Entrega de notas</option>
+          <option value="actividad">Actividad especial</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <button class="btn btn-success" onclick="guardarEvento()">💾 Guardar</button>
+      <button class="btn" onclick="cerrarModal()">❌ Cancelar</button>
+    </div>
+  </div>
+
+  <!-- SELECTOR PDF -->
+  <div id="pdfSelector" class="pdf-selector">
+    <h3>📄 Seleccionar secciones para PDF</h3>
+    <div id="pdfOptions"></div>
+    <button class="btn btn-success" onclick="generarPDF()" style="margin-top: 1rem; width: 100%;">📄 Generar PDF</button>
+    <button class="btn" onclick="cerrarSelectorPDF()" style="width: 100%; margin-top: 0.5rem;">❌ Cerrar</button>
+  </div>
+
+  <footer>
+    <p>Cuaderno Único Docente 2026<br>Desarrollado por José R. White</p>
+  </footer>
+
+  <script>
+    // ==================== VARIABLES GLOBALES ====================
+    let db = {
+      estudiantes: {},
+      asistencia: {},
+      eventos: {},
+      reuniones: [],
+      comisiones: [],
+      visitas: [],
+      permisos: [],
+      circulares: [],
+      actividades: [],
+      inventario: [],
+      asuntos: [],
+      horario: [],
+      datosDocente: {
+        titulo: 'Cuaderno Único Docente',
+        anio: '2026',
+        docente: 'José R. White',
+        escuela: '..........................................................',
+        grado: '........................................'
+      },
+      fechaCreacion: new Date().toISOString(),
+      version: '1.0'
+    };
+
+    let gradoActual = null;
+    let fechaEventoActual = null;
+    let backupPendiente = null;
+
+    // ==================== INICIALIZACIÓN ====================
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarDatos();
+      generarCalendario();
+      actualizarContadores();
+      setFechasPorDefecto();
+      inicializarBackupDropZone();
+      
+      // Setup drag and drop para CSV
+      const dropZone = document.getElementById('dropZone');
+      if(dropZone) {
+        dropZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => {
+          dropZone.classList.remove('dragover');
+        });
+        dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropZone.classList.remove('dragover');
+          const files = e.dataTransfer.files;
+          if(files.length) procesarCSV(files[0]);
+        });
+      }
+    });
+
+    function setFechasPorDefecto() {
+      const hoy = new Date().toISOString().split('T')[0];
+      const elementos = ['fechaAsistencia', 'fechaReunion', 'fechaVisita', 'fechaCircular', 
+                        'fechaActividad', 'fechaAsunto', 'fechaInicioPermiso', 'fechaFinPermiso'];
+      elementos.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.value = hoy;
+      });
+    }
+
+    // ==================== NAVEGACIÓN DE 3 PANTALLAS ====================
+    function regresarAPortada() {
+      // Ocultar sección actual y volver a portada
+      const anterior = document.querySelector('section.active');
+      if (anterior) anterior.classList.remove('active', 'fade-in');
+
+      const portada = document.getElementById('portada');
+      portada.style.opacity = '0';
+      portada.classList.add('active');
+      void portada.offsetHeight;
+      portada.classList.add('fade-in');
+      portada.style.opacity = '';
+
+      // Ocultar nav y header
+      document.getElementById('mainNav').classList.remove('visible');
+      document.getElementById('mainHeader').style.display = 'none';
+
+      window.scrollTo(0, 0);
+    }
+
+    function irABienvenida() {
+      // Ocultar sección actual
+      const anterior = document.querySelector('section.active');
+      if (anterior) anterior.classList.remove('active', 'fade-in');
+
+      const bienvenida = document.getElementById('bienvenida');
+      bienvenida.style.opacity = '0';
+      bienvenida.classList.add('active');
+      void bienvenida.offsetHeight;
+      bienvenida.classList.add('fade-in');
+      bienvenida.style.opacity = '';
+
+      // Mostrar nav y header
+      document.getElementById('mainNav').classList.add('visible');
+      document.getElementById('mainHeader').style.display = 'block';
+
+      window.scrollTo(0, 0);
+
+      // Activar botón inicio en nav
+      document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
+      document.querySelector('.btn-inicio').classList.add('active');
+    }
+
+    function irAFuncionalidades() {
+      // Ocultar sección actual
+      const anterior = document.querySelector('section.active');
+      if (anterior) anterior.classList.remove('active', 'fade-in');
+
+      const func = document.getElementById('funcionalidades');
+      func.style.opacity = '0';
+      func.classList.add('active');
+      void func.offsetHeight;
+      func.classList.add('fade-in');
+      func.style.opacity = '';
+
+      window.scrollTo(0, 0);
+    }
+
+    // ==================== NAVEGACIÓN GENERAL ====================
+    function mostrarSeccion(id, boton) {
+      // Si viene de portada, activar header y nav
+      if (document.getElementById('portada').classList.contains('active')) {
+        document.getElementById('portada').classList.remove('active');
+        document.getElementById('mainNav').classList.add('visible');
+        document.getElementById('mainHeader').style.display = 'block';
+      }
+
+      // Ocultar sección actual
+      const anterior = document.querySelector('section.active');
+      if (anterior) {
+        anterior.classList.remove('active', 'fade-in');
+      }
+
+      // Activar nueva sección con fade
+      const nueva = document.getElementById(id);
+      nueva.style.opacity = '0';
+      nueva.classList.add('active');
+      void nueva.offsetHeight; // forzar reflow para que CSS registre el estado inicial
+      nueva.classList.add('fade-in');
+      nueva.style.opacity = '';
+
+      // Scroll al top
+      window.scrollTo(0, 0);
+
+      // Siempre limpiar estado de todos los botones del nav
+      document.querySelectorAll('#mainNav button').forEach(b => b.classList.remove('active'));
+
+      // Mapeo de IDs de sección → clase del botón en el nav
+      const MAPEO_NAV = {
+        'bienvenida':   '.btn-inicio',
+        'calendario':   '.btn-calendario',
+        'estudiantes':  '.btn-estudiantes',
+        'asistencia':   '.btn-asistencia',
+        'reuniones':    '.btn-reuniones',
+        'comisiones':   '.btn-comisiones',
+        'visitas':      '.btn-visitas',
+        'permisos':     '.btn-permisos',
+        'circulares':   '.btn-circulares',
+        'actividades':  '.btn-actividades',
+        'inventario':   '.btn-inventario',
+        'estadisticas': '.btn-estadisticas',
+        'asuntos':      '.btn-asuntos',
+        'backup':       '.btn-backup',
+        'horario':      '.btn-horario'
+      };
+
+      // Si el botón pasado pertenece al nav, usarlo; si no (o si no se pasó), buscarlo por mapeo
+      let botonNav = (boton && boton.closest('#mainNav')) ? boton : null;
+      if (!botonNav && MAPEO_NAV[id]) {
+        botonNav = document.querySelector('#mainNav ' + MAPEO_NAV[id]);
+      }
+      if (botonNav) botonNav.classList.add('active');
+
+      // Cargar datos específicos de la sección
+      if (id === 'estadisticas') generarEstadisticas();
+      if (id === 'asuntos')      renderizarAsuntos();
+      if (id === 'reuniones')    renderizarReuniones();
+      if (id === 'comisiones')   renderizarComisiones();
+      if (id === 'visitas')      renderizarVisitas();
+      if (id === 'permisos')     renderizarPermisos();
+      if (id === 'circulares')   renderizarCirculares();
+      if (id === 'actividades')  renderizarActividades();
+      if (id === 'inventario')   renderizarInventario();
+      if (id === 'backup')       actualizarStatsBackup();
+      if (id === 'horario')      renderizarHorario();
+    }
+
+    // ==================== DATOS DOCENTE ====================
+    function guardarDato(campo, valor) {
+      db.datosDocente[campo] = valor;
+      
+      // Sincronizar entre portada y header principal
+      if (campo === 'titulo') {
+        document.getElementById('tituloCuaderno').textContent = valor;
+        document.getElementById('tituloPortada').textContent = valor;
+      }
+      if (campo === 'anio') {
+        document.getElementById('anioEscolar').textContent = valor;
+        document.getElementById('anioPortada').textContent = valor;
+      }
+      if (campo === 'docente') {
+        document.getElementById('nombreDocente').textContent = valor;
+        document.getElementById('docentePortada').textContent = valor;
+      }
+      if (campo === 'escuela') {
+        document.getElementById('nombreEscuela').textContent = valor;
+        document.getElementById('escuelaPortada').textContent = valor;
+      }
+      if (campo === 'grado') {
+        document.getElementById('gradoEscolar').textContent = valor;
+        document.getElementById('gradoPortada').textContent = valor;
+      }
+      
+      guardarDatos();
+    }
+
+    // ==================== ESTUDIANTES ====================
+    function seleccionarGrado(grado) {
+      gradoActual = grado;
+      document.getElementById('selectorGrados').classList.add('hidden');
+      document.getElementById('vistaGrado').classList.remove('hidden');
+      
+      const nombres = {
+        prek: 'Pre-K', kinder: 'Kinder', '1grado': '1° Grado',
+        '2grado': '2° Grado', '3grado': '3° Grado', '4grado': '4° Grado',
+        '5grado': '5° Grado', '6grado': '6° Grado'
+      };
+      document.getElementById('tituloGrado').textContent = `👥 Estudiantes de ${nombres[grado]}`;
+      
+      renderizarTabla();
+    }
+
+    function volverAGrados() {
+      document.getElementById('selectorGrados').classList.remove('hidden');
+      document.getElementById('vistaGrado').classList.add('hidden');
+      gradoActual = null;
+      actualizarContadores();
+    }
+
+    function procesarCSV(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const texto = e.target.result;
+        const lineas = texto.split('\n').filter(l => l.trim());
+        
+        for(let i = 1; i < lineas.length; i++) {
+          const cols = lineas[i].split(',');
+          if(cols.length >= 2) {
+            const est = {
+              id: Date.now() + i,
+              nombre: cols[0].trim(),
+              cedula: cols[1]?.trim() || '',
+              fechaNac: cols[2]?.trim() || '',
+              telefono: cols[3]?.trim() || '',
+              email: cols[4]?.trim() || '',
+              direccion: cols[5]?.trim() || '',
+              observaciones: cols[6]?.trim() || ''
+            };
+            
+            if(!db.estudiantes[gradoActual]) db.estudiantes[gradoActual] = [];
+            db.estudiantes[gradoActual].push(est);
+          }
+        }
+        guardarDatos();
+        renderizarTabla();
+        actualizarContadores();
+        mostrarMensaje('✅ Estudiantes importados correctamente', 'success');
+      };
+      reader.readAsText(file);
+    }
+
+    function agregarEstudiante() {
+      const est = {
+        id: Date.now(),
+        nombre: document.getElementById('nombreEstudiante').value,
+        cedula: document.getElementById('cedulaEstudiante').value,
+        fechaNac: document.getElementById('fechaNacimiento').value,
+        telefono: document.getElementById('telefonoPadre').value,
+        email: document.getElementById('emailPadre').value,
+        direccion: document.getElementById('direccion').value,
+        observaciones: document.getElementById('observaciones').value
+      };
+      
+      if(!est.nombre) {
+        alert('❌ El nombre es obligatorio');
+        return;
+      }
+      
+      if(!db.estudiantes[gradoActual]) db.estudiantes[gradoActual] = [];
+      db.estudiantes[gradoActual].push(est);
+      guardarDatos();
+      renderizarTabla();
+      actualizarContadores();
+      
+      // Limpiar formulario
+      ['nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento', 'telefonoPadre', 
+       'emailPadre', 'direccion', 'observaciones'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    }
+
+    function eliminarEstudiante(id) {
+      if(confirm('¿Eliminar este estudiante?')) {
+        db.estudiantes[gradoActual] = db.estudiantes[gradoActual].filter(e => e.id !== id);
+        guardarDatos();
+        renderizarTabla();
+        actualizarContadores();
+      }
+    }
+
+    function renderizarTabla() {
+      const tbody = document.getElementById('tablaEstudiantes');
+      if(!db.estudiantes[gradoActual]) db.estudiantes[gradoActual] = [];
+      
+      tbody.innerHTML = db.estudiantes[gradoActual].map(e => `
+        <tr>
+          <td><input type="checkbox" class="checkbox-estudiante" value="${e.id}"></td>
+          <td>${e.nombre}</td>
+          <td>${e.cedula}</td>
+          <td>${e.telefono}</td>
+          <td>
+            <button class="btn btn-danger" onclick="eliminarEstudiante(${e.id})">🗑️</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function toggleTodos(checkbox) {
+      document.querySelectorAll('.checkbox-estudiante').forEach(c => c.checked = checkbox.checked);
+    }
+
+    function seleccionarTodos() {
+      document.querySelectorAll('.checkbox-estudiante').forEach(c => c.checked = true);
+      document.getElementById('checkAll').checked = true;
+    }
+
+    function deseleccionarTodos() {
+      document.querySelectorAll('.checkbox-estudiante').forEach(c => c.checked = false);
+      document.getElementById('checkAll').checked = false;
+    }
+
+    function exportarSeleccionadosCSV() {
+      const seleccionados = Array.from(document.querySelectorAll('.checkbox-estudiante:checked')).map(c => {
+        const id = parseInt(c.value);
+        return db.estudiantes[gradoActual].find(e => e.id === id);
+      }).filter(e => e);
+      
+      if(seleccionados.length === 0) {
+        alert('❌ No hay estudiantes seleccionados');
+        return;
+      }
+      
+      let csv = 'nombre,cedula,fecha_nac,telefono,email,direccion,observaciones\n';
+      seleccionados.forEach(e => {
+        csv += `"${e.nombre}","${e.cedula}","${e.fechaNac}","${e.telefono}","${e.email}","${e.direccion}","${e.observaciones}"\n`;
+      });
+      
+      descargarArchivo(csv, `estudiantes_${gradoActual}_${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+    }
+
+    function actualizarContadores() {
+      ['prek', 'kinder', '1grado', '2grado', '3grado', '4grado', '5grado', '6grado'].forEach(g => {
+        const count = db.estudiantes[g] ? db.estudiantes[g].length : 0;
+        const el = document.getElementById(`count-${g}`);
+        if(el) el.textContent = `${count} estudiante${count !== 1 ? 's' : ''}`;
+      });
+    }
+
+    // ==================== ASISTENCIA ====================
+    function cargarAsistencia() {
+      const grado = document.getElementById('gradoAsistencia').value;
+      const fecha = document.getElementById('fechaAsistencia').value;
+      
+      if(!grado || !fecha) return;
+      
+      const contenedor = document.getElementById('listaAsistencia');
+      const estudiantes = db.estudiantes[grado] || [];
+      
+      if(estudiantes.length === 0) {
+        contenedor.innerHTML = '<p>No hay estudiantes registrados en este grado.</p>';
+        document.getElementById('panelAsistencia').classList.remove('hidden');
+        return;
+      }
+      
+      const key = `${grado}_${fecha}`;
+      const asistenciaPrev = db.asistencia[key] || {};
+      
+      contenedor.innerHTML = estudiantes.map(e => {
+        const estado = asistenciaPrev[e.id] || 'presente';
+        return `
+          <div class="asistencia-card ${estado}" id="asist-${e.id}" onclick="toggleAsistencia(${e.id})">
+            <h4>${e.nombre}</h4>
+            <p class="estado-texto">${estado === 'presente' ? '✅ Presente' : '❌ Ausente'}</p>
+            <input type="hidden" id="estado-${e.id}" value="${estado}">
+          </div>
+        `;
+      }).join('');
+      
+      document.getElementById('panelAsistencia').classList.remove('hidden');
+    }
+
+    function toggleAsistencia(id) {
+      const input = document.getElementById(`estado-${id}`);
+      const card = document.getElementById(`asist-${id}`);
+      const texto = card.querySelector('.estado-texto');
+      
+      if(input.value === 'presente') {
+        input.value = 'ausente';
+        card.classList.remove('presente');
+        card.classList.add('ausente');
+        texto.textContent = '❌ Ausente';
+      } else {
+        input.value = 'presente';
+        card.classList.remove('ausente');
+        card.classList.add('presente');
+        texto.textContent = '✅ Presente';
+      }
+    }
+
+    function guardarAsistencia() {
+      const grado = document.getElementById('gradoAsistencia').value;
+      const fecha = document.getElementById('fechaAsistencia').value;
+      const key = `${grado}_${fecha}`;
+      
+      db.asistencia[key] = {};
+      document.querySelectorAll('[id^="estado-"]').forEach(input => {
+        const id = parseInt(input.id.replace('estado-', ''));
+        db.asistencia[key][id] = input.value;
+      });
+      
+      guardarDatos();
+      mostrarMensaje('✅ Asistencia guardada correctamente', 'success');
+    }
+
+    // ==================== CALENDARIO ====================
+    function generarCalendario() {
+      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      const container = document.getElementById('calendarioContainer');
+      
+      container.innerHTML = meses.map((mes, idx) => {
+        const fecha = new Date(2026, idx, 1);
+        const diasEnMes = new Date(2026, idx + 1, 0).getDate();
+        const primerDia = fecha.getDay();
+        
+        let html = `<div class="mes-mini">
+          <h4>${mes} 2026</h4>
+          <table>
+            <tr><th>D</th><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th></tr>
+            <tr>`;
+        
+        for(let i = 0; i < primerDia; i++) html += '<td></td>';
+        
+        for(let dia = 1; dia <= diasEnMes; dia++) {
+          const fechaStr = `2026-${String(idx + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+          const tieneEvento = db.eventos[fechaStr] && db.eventos[fechaStr].length > 0;
+          const claseExtra = obtenerClaseDiaEspecial(fechaStr, dia, idx);
+          
+          html += `<td class="${tieneEvento ? 'dia-con-evento' : ''} ${claseExtra}" 
+                     onclick="abrirModalEvento('${fechaStr}')">${dia}</td>`;
+          
+          if((primerDia + dia) % 7 === 0 && dia !== diasEnMes) html += '</tr><tr>';
+        }
+        
+        html += '</tr></table></div>';
+        return html;
+      }).join('');
+      
+      renderizarEventosProximos();
+    }
+
+    function obtenerClaseDiaEspecial(fechaStr, dia, mes) {
+      if(fechaStr >= '2026-02-23' && fechaStr <= '2026-02-27') return 'highlight-org';
+      if(fechaStr === '2026-03-02') return 'highlight-inicio';
+      if(fechaStr >= '2026-06-01' && fechaStr <= '2026-06-05') return 'highlight-receso';
+      if(fechaStr >= '2026-09-07' && fechaStr <= '2026-09-11') return 'highlight-receso';
+      if(fechaStr === '2026-12-11') return 'highlight-fin';
+      return '';
+    }
+
+    function abrirModalEvento(fecha) {
+      fechaEventoActual = fecha;
+      document.getElementById('modalFecha').value = fecha;
+      document.getElementById('tituloEvento').value = '';
+      document.getElementById('descEvento').value = '';
+      document.getElementById('modalEvento').classList.add('active');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalEvento').classList.remove('active');
+    }
+
+    function guardarEvento() {
+      const titulo = document.getElementById('tituloEvento').value;
+      if(!titulo) {
+        alert('❌ El título es obligatorio');
+        return;
+      }
+      
+      if(!db.eventos[fechaEventoActual]) db.eventos[fechaEventoActual] = [];
+      
+      db.eventos[fechaEventoActual].push({
+        titulo: titulo,
+        descripcion: document.getElementById('descEvento').value,
+        tipo: document.getElementById('tipoEvento').value
+      });
+      
+      guardarDatos();
+      generarCalendario();
+      cerrarModal();
+    }
+
+    function renderizarEventosProximos() {
+      const hoy = new Date().toISOString().split('T')[0];
+      const eventos = [];
+      
+      Object.keys(db.eventos).forEach(fecha => {
+        if(fecha >= hoy) {
+          db.eventos[fecha].forEach(e => {
+            eventos.push({fecha, ...e});
+          });
+        }
+      });
+      
+      eventos.sort((a, b) => a.fecha.localeCompare(b.fecha));
+      
+      const contenedor = document.getElementById('listaEventosProximos');
+      if(eventos.length === 0) {
+        contenedor.innerHTML = '<p>No hay eventos próximos</p>';
+        return;
+      }
+      
+      contenedor.innerHTML = eventos.slice(0, 5).map(e => `
+        <div class="evento-item">
+          <strong>${e.fecha}</strong> - ${e.titulo}
+          <p style="margin: 0.5rem 0 0 0; color: #666;">${e.descripcion || ''}</p>
+        </div>
+      `).join('');
+    }
+
+    // ==================== REUNIONES ====================
+    function agregarReunion() {
+      const r = {
+        id: Date.now(),
+        fecha: document.getElementById('fechaReunion').value,
+        tema: document.getElementById('temaReunion').value,
+        participantes: document.getElementById('participantesReunion').value,
+        acuerdos: document.getElementById('acuerdosReunion').value
+      };
+      
+      if(!r.tema) {
+        alert('❌ El tema es obligatorio');
+        return;
+      }
+      
+      db.reuniones.unshift(r);
+      guardarDatos();
+      renderizarReuniones();
+      
+      document.getElementById('temaReunion').value = '';
+      document.getElementById('participantesReunion').value = '';
+      document.getElementById('acuerdosReunion').value = '';
+    }
+
+    function renderizarReuniones() {
+      const cont = document.getElementById('listaReuniones');
+      if(db.reuniones.length === 0) {
+        cont.innerHTML = '<p>No hay reuniones registradas</p>';
+        return;
+      }
+      
+      cont.innerHTML = db.reuniones.map(r => `
+        <div class="evento-item">
+          <strong>${r.fecha}</strong> - ${r.tema}
+          <p><strong>Participantes:</strong> ${r.participantes}</p>
+          <p><strong>Acuerdos:</strong> ${r.acuerdos}</p>
+          <button class="btn btn-danger" onclick="eliminarReunion(${r.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarReunion(id) {
+      db.reuniones = db.reuniones.filter(r => r.id !== id);
+      guardarDatos();
+      renderizarReuniones();
+    }
+
+    // ==================== COMISIONES ====================
+    function agregarComision() {
+      const c = {
+        id: Date.now(),
+        nombre: document.getElementById('nombreComision').value,
+        integrantes: document.getElementById('integrantesComision').value,
+        funciones: document.getElementById('funcionesComision').value
+      };
+      
+      if(!c.nombre) {
+        alert('❌ El nombre es obligatorio');
+        return;
+      }
+      
+      db.comisiones.push(c);
+      guardarDatos();
+      renderizarComisiones();
+      
+      document.getElementById('nombreComision').value = '';
+      document.getElementById('integrantesComision').value = '';
+      document.getElementById('funcionesComision').value = '';
+    }
+
+    function renderizarComisiones() {
+      const cont = document.getElementById('listaComisiones');
+      if(db.comisiones.length === 0) {
+        cont.innerHTML = '<p>No hay comisiones registradas</p>';
+        return;
+      }
+      
+      cont.innerHTML = db.comisiones.map(c => `
+        <div class="evento-item">
+          <h4>${c.nombre}</h4>
+          <p><strong>Integrantes:</strong> ${c.integrantes}</p>
+          <p><strong>Funciones:</strong> ${c.funciones}</p>
+          <button class="btn btn-danger" onclick="eliminarComision(${c.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarComision(id) {
+      db.comisiones = db.comisiones.filter(c => c.id !== id);
+      guardarDatos();
+      renderizarComisiones();
+    }
+
+    // ==================== VISITAS ====================
+    function agregarVisita() {
+      const v = {
+        id: Date.now(),
+        fecha: document.getElementById('fechaVisita').value,
+        lugar: document.getElementById('lugarVisita').value,
+        grado: document.getElementById('gradoVisita').value,
+        cantidad: document.getElementById('cantidadVisita').value,
+        responsables: document.getElementById('responsablesVisita').value,
+        observaciones: document.getElementById('observacionesVisita').value
+      };
+      
+      if(!v.lugar) {
+        alert('❌ El lugar es obligatorio');
+        return;
+      }
+      
+      db.visitas.unshift(v);
+      guardarDatos();
+      renderizarVisitas();
+      
+      ['lugarVisita', 'gradoVisita', 'cantidadVisita', 'responsablesVisita', 'observacionesVisita'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    }
+
+    function renderizarVisitas() {
+      const cont = document.getElementById('listaVisitas');
+      if(db.visitas.length === 0) {
+        cont.innerHTML = '<p>No hay visitas registradas</p>';
+        return;
+      }
+      
+      cont.innerHTML = db.visitas.map(v => `
+        <div class="evento-item">
+          <strong>${v.fecha}</strong> - ${v.lugar}
+          <p><strong>Grado(s):</strong> ${v.grado} | <strong>Estudiantes:</strong> ${v.cantidad}</p>
+          <p><strong>Responsables:</strong> ${v.responsables}</p>
+          <p>${v.observaciones}</p>
+          <button class="btn btn-danger" onclick="eliminarVisita(${v.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarVisita(id) {
+      db.visitas = db.visitas.filter(v => v.id !== id);
+      guardarDatos();
+      renderizarVisitas();
+    }
+
+    // ==================== PERMISOS ====================
+    function agregarPermiso() {
+      const p = {
+        id: Date.now(),
+        tipo: document.getElementById('tipoPermiso').value,
+        fechaInicio: document.getElementById('fechaInicioPermiso').value,
+        fechaFin: document.getElementById('fechaFinPermiso').value,
+        motivo: document.getElementById('motivoPermiso').value,
+        observaciones: document.getElementById('obsPermiso').value
+      };
+      
+      if(!p.motivo) {
+        alert('❌ El motivo es obligatorio');
+        return;
+      }
+      
+      db.permisos.unshift(p);
+      guardarDatos();
+      renderizarPermisos();
+      
+      document.getElementById('motivoPermiso').value = '';
+      document.getElementById('obsPermiso').value = '';
+    }
+
+    function renderizarPermisos() {
+      const cont = document.getElementById('listaPermisos');
+      if(db.permisos.length === 0) {
+        cont.innerHTML = '<p>No hay permisos registrados</p>';
+        return;
+      }
+      
+      const tipos = {personal: 'Personal', enfermedad: 'Enfermedad', capacitacion: 'Capacitación', otro: 'Otro'};
+      
+      cont.innerHTML = db.permisos.map(p => `
+        <div class="evento-item">
+          <strong>${p.fechaInicio} al ${p.fechaFin}</strong> - ${tipos[p.tipo]}
+          <p><strong>Motivo:</strong> ${p.motivo}</p>
+          <p>${p.observaciones}</p>
+          <button class="btn btn-danger" onclick="eliminarPermiso(${p.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarPermiso(id) {
+      db.permisos = db.permisos.filter(p => p.id !== id);
+      guardarDatos();
+      renderizarPermisos();
+    }
+
+    // ==================== CIRCULARES ====================
+    function agregarCircular() {
+      const c = {
+        id: Date.now(),
+        fecha: document.getElementById('fechaCircular').value,
+        numero: document.getElementById('numeroCircular').value,
+        asunto: document.getElementById('asuntoCircular').value,
+        destinatarios: document.getElementById('destinatariosCircular').value,
+        contenido: document.getElementById('contenidoCircular').value
+      };
+      
+      if(!c.asunto) {
+        alert('❌ El asunto es obligatorio');
+        return;
+      }
+      
+      db.circulares.unshift(c);
+      guardarDatos();
+      renderizarCirculares();
+      
+      ['numeroCircular', 'asuntoCircular', 'destinatariosCircular', 'contenidoCircular'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    }
+
+    function renderizarCirculares() {
+      const cont = document.getElementById('listaCirculares');
+      if(db.circulares.length === 0) {
+        cont.innerHTML = '<p>No hay circulares registradas</p>';
+        return;
+      }
+      
+      cont.innerHTML = db.circulares.map(c => `
+        <div class="evento-item">
+          <strong>${c.fecha}</strong> - ${c.numero || 'Sin número'}
+          <h4>${c.asunto}</h4>
+          <p><strong>Para:</strong> ${c.destinatarios}</p>
+          <p>${c.contenido}</p>
+          <button class="btn btn-danger" onclick="eliminarCircular(${c.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarCircular(id) {
+      db.circulares = db.circulares.filter(c => c.id !== id);
+      guardarDatos();
+      renderizarCirculares();
+    }
+
+    // ==================== ACTIVIDADES ECONÓMICAS ====================
+    function agregarActividad() {
+      const a = {
+        id: Date.now(),
+        nombre: document.getElementById('nombreActividad').value,
+        fecha: document.getElementById('fechaActividad').value,
+        ingresos: parseFloat(document.getElementById('ingresosActividad').value) || 0,
+        egresos: parseFloat(document.getElementById('egresosActividad').value) || 0,
+        descripcion: document.getElementById('descActividad').value
+      };
+      
+      if(!a.nombre) {
+        alert('❌ El nombre es obligatorio');
+        return;
+      }
+      
+      db.actividades.unshift(a);
+      guardarDatos();
+      renderizarActividades();
+      
+      ['nombreActividad', 'ingresosActividad', 'egresosActividad', 'descActividad'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    }
+
+    function renderizarActividades() {
+      const cont = document.getElementById('listaActividades');
+      const resumen = document.getElementById('resumenFinanciero');
+      
+      if(db.actividades.length === 0) {
+        cont.innerHTML = '<p>No hay actividades registradas</p>';
+        resumen.innerHTML = '<p>Sin datos financieros</p>';
+        return;
+      }
+      
+      const totalIngresos = db.actividades.reduce((sum, a) => sum + a.ingresos, 0);
+      const totalEgresos = db.actividades.reduce((sum, a) => sum + a.egresos, 0);
+      const balance = totalIngresos - totalEgresos;
+      
+      resumen.innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+          <div class="card" style="background: #d4edda;">
+            <h4>Ingresos</h4>
+            <p style="font-size: 1.5rem; color: #27ae60;">$${totalIngresos.toFixed(2)}</p>
+          </div>
+          <div class="card" style="background: #f8d7da;">
+            <h4>Egresos</h4>
+            <p style="font-size: 1.5rem; color: #e74c3c;">$${totalEgresos.toFixed(2)}</p>
+          </div>
+          <div class="card" style="background: ${balance >= 0 ? '#d4edda' : '#f8d7da'};">
+            <h4>Balance</h4>
+            <p style="font-size: 1.5rem; color: ${balance >= 0 ? '#27ae60' : '#e74c3c'};">$${balance.toFixed(2)}</p>
+          </div>
+        </div>
+      `;
+      
+      cont.innerHTML = db.actividades.map(a => `
+        <div class="evento-item">
+          <strong>${a.fecha}</strong> - ${a.nombre}
+          <p><strong>Ingresos:</strong> $${a.ingresos.toFixed(2)} | <strong>Egresos:</strong> $${a.egresos.toFixed(2)}</p>
+          <p>${a.descripcion}</p>
+          <button class="btn btn-danger" onclick="eliminarActividad(${a.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarActividad(id) {
+      db.actividades = db.actividades.filter(a => a.id !== id);
+      guardarDatos();
+      renderizarActividades();
+    }
+
+    // ==================== INVENTARIO ====================
+    function agregarMaterial() {
+      const m = {
+        id: Date.now(),
+        nombre: document.getElementById('nombreMaterial').value,
+        cantidad: parseInt(document.getElementById('cantidadMaterial').value) || 1,
+        estado: document.getElementById('estadoMaterial').value,
+        ubicacion: document.getElementById('ubicacionMaterial').value,
+        observaciones: document.getElementById('obsMaterial').value
+      };
+      
+      if(!m.nombre) {
+        alert('❌ El nombre del material es obligatorio');
+        return;
+      }
+      
+      db.inventario.push(m);
+      guardarDatos();
+      renderizarInventario();
+      
+      ['nombreMaterial', 'ubicacionMaterial', 'obsMaterial'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('cantidadMaterial').value = '1';
+    }
+
+    function renderizarInventario() {
+      const cont = document.getElementById('listaInventario');
+      if(db.inventario.length === 0) {
+        cont.innerHTML = '<p>No hay materiales en el inventario</p>';
+        return;
+      }
+      
+      const estados = {bueno: '🟢 Bueno', regular: '🟡 Regular', malo: '🔴 Malo'};
+      
+      cont.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Cantidad</th>
+              <th>Estado</th>
+              <th>Ubicación</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${db.inventario.map(m => `
+              <tr>
+                <td>${m.nombre}</td>
+                <td>${m.cantidad}</td>
+                <td>${estados[m.estado]}</td>
+                <td>${m.ubicacion}</td>
+                <td>
+                  <button class="btn btn-danger" onclick="eliminarMaterial(${m.id})">🗑️</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function eliminarMaterial(id) {
+      db.inventario = db.inventario.filter(m => m.id !== id);
+      guardarDatos();
+      renderizarInventario();
+    }
+
+    // ==================== ASUNTOS VARIOS ====================
+    function agregarAsunto() {
+      const a = {
+        id: Date.now(),
+        fecha: document.getElementById('fechaAsunto').value,
+        titulo: document.getElementById('tituloAsunto').value,
+        prioridad: document.getElementById('prioridadAsunto').value,
+        descripcion: document.getElementById('descAsunto').value
+      };
+      
+      if(!a.titulo) {
+        alert('❌ El título es obligatorio');
+        return;
+      }
+      
+      db.asuntos.unshift(a);
+      guardarDatos();
+      renderizarAsuntos();
+      
+      document.getElementById('tituloAsunto').value = '';
+      document.getElementById('descAsunto').value = '';
+    }
+
+    function renderizarAsuntos() {
+      const cont = document.getElementById('listaAsuntos');
+      if(db.asuntos.length === 0) {
+        cont.innerHTML = '<p>No hay asuntos registrados</p>';
+        return;
+      }
+      
+      cont.innerHTML = db.asuntos.map(a => `
+        <div class="evento-item prioridad-${a.prioridad}">
+          <strong>${a.fecha}</strong> - ${a.titulo}
+          <span style="float: right; text-transform: uppercase; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 5px; background: ${a.prioridad === 'alta' ? '#e74c3c' : a.prioridad === 'media' ? '#f39c12' : '#27ae60'}; color: white;">
+            ${a.prioridad}
+          </span>
+          <p style="margin-top: 0.5rem;">${a.descripcion}</p>
+          <button class="btn btn-danger" onclick="eliminarAsunto(${a.id})" style="margin-top: 0.5rem;">🗑️ Eliminar</button>
+        </div>
+      `).join('');
+    }
+
+    function eliminarAsunto(id) {
+      db.asuntos = db.asuntos.filter(a => a.id !== id);
+      guardarDatos();
+      renderizarAsuntos();
+    }
+
+    // ==================== ESTADÍSTICAS ====================
+    function generarEstadisticas() {
+      const totalEstudiantes = Object.values(db.estudiantes).reduce((sum, arr) => sum + arr.length, 0);
+      const totalReuniones = db.reuniones.length;
+      const totalVisitas = db.visitas.length;
+      const totalActividades = db.actividades.length;
+      
+      document.getElementById('resumenEstadisticas').innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div class="card" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h3>👥</h3>
+            <p style="font-size: 2rem; margin: 0;">${totalEstudiantes}</p>
+            <p>Estudiantes</p>
+          </div>
+          <div class="card" style="text-align: center; background: #4ECDC4; color: white;">
+            <h3>🤝</h3>
+            <p style="font-size: 2rem; margin: 0;">${totalReuniones}</p>
+            <p>Reuniones</p>
+          </div>
+          <div class="card" style="text-align: center; background: #FFEAA7; color: #333;">
+            <h3>🚗</h3>
+            <p style="font-size: 2rem; margin: 0;">${totalVisitas}</p>
+            <p>Visitas</p>
+          </div>
+          <div class="card" style="text-align: center; background: #85C1E2; color: white;">
+            <h3>💰</h3>
+            <p style="font-size: 2rem; margin: 0;">${totalActividades}</p>
+            <p>Actividades</p>
+          </div>
+        </div>
+      `;
+      
+      const nombres = {
+        prek: 'Pre-K', kinder: 'Kinder', '1grado': '1° Grado',
+        '2grado': '2° Grado', '3grado': '3° Grado', '4grado': '4° Grado',
+        '5grado': '5° Grado', '6grado': '6° Grado'
+      };
+      
+      document.getElementById('statsPorGrado').innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Grado</th>
+              <th>Estudiantes</th>
+              <th>% del total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${Object.keys(nombres).map(g => {
+              const count = db.estudiantes[g] ? db.estudiantes[g].length : 0;
+              const porcentaje = totalEstudiantes > 0 ? ((count / totalEstudiantes) * 100).toFixed(1) : 0;
+              return `
+                <tr>
+                  <td>${nombres[g]}</td>
+                  <td>${count}</td>
+                  <td>
+                    <div style="background: #e0e0e0; border-radius: 10px; overflow: hidden;">
+                      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: ${porcentaje}%; padding: 0.3rem; color: white; text-align: center; font-size: 0.8rem;">
+                        ${porcentaje}%
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // ==================== BACKUP / RESTORE ====================
+    // ==================== HORARIO ====================
+    const HORARIO_FILAS = 10;
+    const HORARIO_DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
+
+    function renderizarHorario() {
+      // Inicializar horario si está vacío
+      if (!db.horario || db.horario.length === 0) {
+        db.horario = Array.from({ length: HORARIO_FILAS }, () => ({
+          hora: '',
+          lunes: '', martes: '', miercoles: '', jueves: '', viernes: ''
+        }));
+      }
+
+      const tbody = document.getElementById('horarioBody');
+      tbody.innerHTML = '';
+
+      db.horario.forEach((fila, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="hora-col"><input type="text" placeholder="7:00-7:45" value="${fila.hora}" 
+            oninput="guardarCeldaHorario(${i},'hora',this.value)"></td>
+          <td><input type="text" placeholder="Materia" value="${fila.lunes}" 
+            oninput="guardarCeldaHorario(${i},'lunes',this.value)"></td>
+          <td><input type="text" placeholder="Materia" value="${fila.martes}" 
+            oninput="guardarCeldaHorario(${i},'martes',this.value)"></td>
+          <td><input type="text" placeholder="Materia" value="${fila.miercoles}" 
+            oninput="guardarCeldaHorario(${i},'miercoles',this.value)"></td>
+          <td><input type="text" placeholder="Materia" value="${fila.jueves}" 
+            oninput="guardarCeldaHorario(${i},'jueves',this.value)"></td>
+          <td><input type="text" placeholder="Materia" value="${fila.viernes}" 
+            oninput="guardarCeldaHorario(${i},'viernes',this.value)"></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function guardarCeldaHorario(fila, campo, valor) {
+      if (!db.horario[fila]) return;
+      db.horario[fila][campo] = valor;
+      guardarDatos();
+    }
+
+    function limpiarHorario() {
+      if (!confirm('¿Limpiar todo el horario? Esta acción no se puede deshacer.')) return;
+      db.horario = Array.from({ length: HORARIO_FILAS }, () => ({
+        hora: '', lunes: '', martes: '', miercoles: '', jueves: '', viernes: ''
+      }));
+      guardarDatos();
+      renderizarHorario();
+    }
+
+    function actualizarStatsBackup() {
+      const totalEstudiantes = Object.values(db.estudiantes).reduce((sum, arr) => sum + arr.length, 0);
+      const totalEventos = Object.keys(db.eventos).length;
+      
+      document.getElementById('backupStats').innerHTML = `
+        <div class="stat-box">
+          <h4>👥 Estudiantes</h4>
+          <p>${totalEstudiantes}</p>
+        </div>
+        <div class="stat-box">
+          <h4>📅 Eventos</h4>
+          <p>${totalEventos}</p>
+        </div>
+        <div class="stat-box">
+          <h4>🤝 Reuniones</h4>
+          <p>${db.reuniones.length}</p>
+        </div>
+        <div class="stat-box">
+          <h4>📋 Asuntos</h4>
+          <p>${db.asuntos.length}</p>
+        </div>
+        <div class="stat-box">
+          <h4>💰 Actividades</h4>
+          <p>${db.actividades.length}</p>
+        </div>
+        <div class="stat-box">
+          <h4>📦 Inventario</h4>
+          <p>${db.inventario.length}</p>
+        </div>
+      `;
+      
+      const guardado = localStorage.getItem('cuadernoDocente2026');
+      if(guardado) {
+        const fecha = new Date(JSON.parse(guardado).fechaCreacion || Date.now());
+        document.getElementById('ultimaModificacion').textContent = fecha.toLocaleString('es-PA');
+      }
+    }
+
+    function exportarBackup() {
+      db.fechaCreacion = new Date().toISOString();
+      db.version = '1.0';
+      
+      const dataStr = JSON.stringify(db, null, 2);
+      const dataBlob = new Blob([dataStr], {type: 'application/json'});
+      
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `cuaderno_backup_${db.datosDocente.docente.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      mostrarMensajeBackup('✅ Backup descargado correctamente', 'success', 'mensajeExportar');
+    }
+
+    async function copiarAlPortapapeles() {
+      try {
+        db.fechaCreacion = new Date().toISOString();
+        const dataStr = JSON.stringify(db);
+        await navigator.clipboard.writeText(dataStr);
+        mostrarMensajeBackup('📋 Datos copiados al portapapeles. Pégalo donde quieras guardarlo.', 'success', 'mensajeExportar');
+      } catch(err) {
+        mostrarMensajeBackup('❌ Error al copiar. Intenta descargar el archivo en su lugar.', 'error', 'mensajeExportar');
+      }
+    }
+
+    function inicializarBackupDropZone() {
+      const dropZone = document.getElementById('backupDropZone');
+      if(!dropZone) return;
+      
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+      
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+      });
+      
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if(files.length) procesarBackup(files[0]);
+      });
+    }
+
+    function procesarBackup(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const backup = JSON.parse(e.target.result);
+          mostrarPreviewBackup(backup);
+        } catch(err) {
+          mostrarMensajeBackup('❌ Error: El archivo no es un backup válido', 'error', 'mensajeRestaurar');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function restaurarDesdeTexto() {
+      const texto = document.getElementById('backupTextArea').value.trim();
+      if(!texto) {
+        mostrarMensajeBackup('❌ Pega el contenido del backup primero', 'error', 'mensajeRestaurar');
+        return;
+      }
+      
+      try {
+        const backup = JSON.parse(texto);
+        mostrarPreviewBackup(backup);
+      } catch(err) {
+        mostrarMensajeBackup('❌ Error: El texto no es un backup válido', 'error', 'mensajeRestaurar');
+      }
+    }
+
+    function mostrarPreviewBackup(backup) {
+      if(!backup.datosDocente || !backup.estudiantes) {
+        mostrarMensajeBackup('❌ Error: Estructura de backup inválida', 'error', 'mensajeRestaurar');
+        return;
+      }
+      
+      backupPendiente = backup;
+      
+      const totalEst = Object.values(backup.estudiantes).reduce((sum, arr) => sum + arr.length, 0);
+      const totalEventos = Object.keys(backup.eventos || {}).length;
+      
+      document.getElementById('previewStats').innerHTML = `
+        <div class="stat-box">
+          <h4>Docente</h4>
+          <p style="font-size: 1rem;">${backup.datosDocente.docente}</p>
+        </div>
+        <div class="stat-box">
+          <h4>Estudiantes</h4>
+          <p>${totalEst}</p>
+        </div>
+        <div class="stat-box">
+          <h4>Eventos</h4>
+          <p>${totalEventos}</p>
+        </div>
+        <div class="stat-box">
+          <h4>Fecha backup</h4>
+          <p style="font-size: 0.9rem;">${new Date(backup.fechaCreacion).toLocaleDateString('es-PA')}</p>
+        </div>
+      `;
+      
+      const previewText = JSON.stringify(backup, null, 2).substring(0, 2000) + '...';
+      document.getElementById('previewContenido').textContent = previewText;
+      
+      document.getElementById('previewBackupCard').classList.remove('hidden');
+      document.getElementById('mensajeRestaurar').classList.add('hidden');
+    }
+
+    function confirmarRestauracion() {
+      if(!backupPendiente) return;
+      
+      if(!confirm('⚠️ ¿Estás seguro? Esto reemplazará TODOS tus datos actuales.\n\nRecomendación: Exporta tu backup actual primero si no lo has hecho.')) {
+        return;
+      }
+      
+      db = backupPendiente;
+      guardarDatos();
+      
+      // Sincronizar todos los campos editables
+      document.getElementById('tituloCuaderno').textContent = db.datosDocente.titulo;
+      document.getElementById('anioEscolar').textContent = db.datosDocente.anio;
+      document.getElementById('nombreDocente').textContent = db.datosDocente.docente;
+      document.getElementById('nombreEscuela').textContent = db.datosDocente.escuela;
+      document.getElementById('gradoEscolar').textContent = db.datosDocente.grado;
+      
+      document.getElementById('tituloPortada').textContent = db.datosDocente.titulo;
+      document.getElementById('anioPortada').textContent = db.datosDocente.anio;
+      document.getElementById('docentePortada').textContent = db.datosDocente.docente;
+      document.getElementById('escuelaPortada').textContent = db.datosDocente.escuela;
+      document.getElementById('gradoPortada').textContent = db.datosDocente.grado;
+      
+      generarCalendario();
+      actualizarContadores();
+      actualizarStatsBackup();
+      
+      document.getElementById('previewBackupCard').classList.add('hidden');
+      document.getElementById('backupTextArea').value = '';
+      backupPendiente = null;
+      
+      mostrarMensajeBackup('✅ Datos restaurados correctamente. La página se recargará...', 'success', 'mensajeRestaurar');
+      
+      setTimeout(() => location.reload(), 2000);
+    }
+
+    function cancelarRestauracion() {
+      backupPendiente = null;
+      document.getElementById('previewBackupCard').classList.add('hidden');
+      document.getElementById('backupTextArea').value = '';
+    }
+
+    function mostrarMensajeBackup(mensaje, tipo, elementoId) {
+      const el = document.getElementById(elementoId);
+      el.textContent = mensaje;
+      el.className = `backup-status backup-${tipo}`;
+      el.classList.remove('hidden');
+      
+      setTimeout(() => {
+        el.classList.add('hidden');
+      }, 5000);
+    }
+
+    // ==================== UTILIDADES ====================
+    function descargarArchivo(contenido, nombre, tipo) {
+      const blob = new Blob([contenido], {type: tipo});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = nombre;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function mostrarMensaje(mensaje, tipo) {
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${tipo === 'success' ? '#27ae60' : '#e74c3c'};
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10000;
+        font-weight: bold;
+        animation: slideIn 0.3s ease;
+      `;
+      toast.textContent = mensaje;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // ==================== PDF ====================
+    function mostrarSelectorPDF() {
+      const opciones = [
+        {id: 'datos', label: 'Datos del Docente'},
+        {id: 'calendario', label: 'Calendario'},
+        {id: 'estudiantes', label: 'Lista de Estudiantes'},
+        {id: 'asistencia', label: 'Registro de Asistencia'},
+        {id: 'reuniones', label: 'Reuniones'},
+        {id: 'comisiones', label: 'Comisiones'},
+        {id: 'visitas', label: 'Visitas'},
+        {id: 'permisos', label: 'Permisos'},
+        {id: 'circulares', label: 'Circulares'},
+        {id: 'actividades', label: 'Actividades Económicas'},
+        {id: 'inventario', label: 'Inventario'},
+        {id: 'asuntos', label: 'Asuntos Varios'}
+      ];
+      
+      document.getElementById('pdfOptions').innerHTML = opciones.map(o => `
+        <div class="pdf-option">
+          <input type="checkbox" id="pdf-${o.id}" value="${o.id}" checked>
+          <label for="pdf-${o.id}">${o.label}</label>
+        </div>
+      `).join('');
+      
+      document.getElementById('pdfSelector').classList.add('active');
+    }
+
+    function cerrarSelectorPDF() {
+      document.getElementById('pdfSelector').classList.remove('active');
+    }
+
+    function generarPDF() {
+      const seleccionados = Array.from(document.querySelectorAll('#pdfOptions input:checked')).map(c => c.value);
+      
+      let contenido = `
+        <h1>${db.datosDocente.titulo} - ${db.datosDocente.anio}</h1>
+        <p><strong>Docente:</strong> ${db.datosDocente.docente}</p>
+        <p><strong>Centro Educativo:</strong> ${db.datosDocente.escuela}</p>
+        <p><strong>Grado:</strong> ${db.datosDocente.grado}</p>
+        <hr>
+      `;
+      
+      if(seleccionados.includes('estudiantes')) {
+        contenido += '<h2>Lista de Estudiantes</h2>';
+        Object.keys(db.estudiantes).forEach(g => {
+          if(db.estudiantes[g].length > 0) {
+            const nombres = {prek: 'Pre-K', kinder: 'Kinder', '1grado': '1°', '2grado': '2°', '3grado': '3°', '4grado': '4°', '5grado': '5°', '6grado': '6°'};
+            contenido += `<h3>${nombres[g] || g}</h3><ul>`;
+            db.estudiantes[g].forEach(e => {
+              contenido += `<li>${e.nombre} - ${e.cedula}</li>`;
+            });
+            contenido += '</ul>';
+          }
+        });
+      }
+      
+      if(seleccionados.includes('reuniones') && db.reuniones.length > 0) {
+        contenido += '<h2>Reuniones</h2>';
+        db.reuniones.forEach(r => {
+          contenido += `<p><strong>${r.fecha}</strong> - ${r.tema}<br>${r.acuerdos}</p>`;
+        });
+      }
+      
+      const ventana = window.open('', '_blank');
+      ventana.document.write(`
+        <html>
+          <head>
+            <title>Cuaderno Docente - PDF</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 2rem; }
+              h1 { color: #667eea; }
+              h2 { color: #764ba2; border-bottom: 2px solid #764ba2; padding-bottom: 0.5rem; }
+              h3 { color: #555; }
+            </style>
+          </head>
+          <body>${contenido}</body>
+        </html>
+      `);
+      ventana.document.close();
+      ventana.print();
+      
+      cerrarSelectorPDF();
+    }
+
+    // ==================== LOCALSTORAGE ====================
+    function guardarDatos() {
+      db.fechaCreacion = new Date().toISOString();
+      localStorage.setItem('cuadernoDocente2026', JSON.stringify(db));
+    }
+
+    function cargarDatos() {
+      const guardado = localStorage.getItem('cuadernoDocente2026');
+      if(guardado) {
+        db = JSON.parse(guardado);
+        
+        if(!db.asuntos) db.asuntos = [];
+        if(!db.inventario) db.inventario = [];
+        if(!db.actividades) db.actividades = [];
+        if(!db.datosDocente) {
+          db.datosDocente = {
+            titulo: 'Cuaderno Único Docente',
+            anio: '2026',
+            docente: 'José R. White',
+            escuela: '..........................................................',
+            grado: '........................................'
+          };
+        }
+        
+        // Sincronizar header principal
+        document.getElementById('tituloCuaderno').textContent = db.datosDocente.titulo;
+        document.getElementById('anioEscolar').textContent = db.datosDocente.anio;
+        document.getElementById('nombreDocente').textContent = db.datosDocente.docente;
+        document.getElementById('nombreEscuela').textContent = db.datosDocente.escuela;
+        document.getElementById('gradoEscolar').textContent = db.datosDocente.grado;
+        
+        // Sincronizar portada
+        document.getElementById('tituloPortada').textContent = db.datosDocente.titulo;
+        document.getElementById('anioPortada').textContent = db.datosDocente.anio;
+        document.getElementById('docentePortada').textContent = db.datosDocente.docente;
+        document.getElementById('escuelaPortada').textContent = db.datosDocente.escuela;
+        document.getElementById('gradoPortada').textContent = db.datosDocente.grado;
+      }
+      
+      // Ocultar header principal y nav al inicio (solo portada visible)
+      document.getElementById('mainHeader').style.display = 'none';
+      document.getElementById('mainNav').classList.remove('visible');
+    }
+  </script>
+
+  <!-- Indicador flotante: solo visible en sección funcionalidades -->
+  <div id="scrollHint" style="
+    display: none;
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.85rem;
+    font-family: Roboto, sans-serif;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 999;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  ">
+    <span id="scrollArrow" style="font-size: 2rem; line-height: 1;">⬆</span>
+    <span>Deslizar hacia arriba</span>
+  </div>
+
+  <style>
+    #scrollArrow { animation: bounceUp 1.4s ease-in-out infinite; }
+    @keyframes bounceUp {
+      0%, 100% { transform: translateY(0);   opacity: 0.6; }
+      50%       { transform: translateY(-8px); opacity: 1;   }
+    }
+  </style>
+
+  <script>
+    // Mostrar/ocultar indicador según sección activa
+    (function() {
+      const hint = document.getElementById('scrollHint');
+      const observer = new MutationObserver(() => {
+        const activa = document.querySelector('section.active');
+        if (activa && activa.id === 'funcionalidades') {
+          hint.style.display = 'flex';
+        } else {
+          hint.style.display = 'none';
+        }
+      });
+      observer.observe(document.body, { subtree: true, attributeFilter: ['class'] });
+    })();
+  </script>
+
+</body>
+</html>
