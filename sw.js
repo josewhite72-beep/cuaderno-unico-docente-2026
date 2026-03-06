@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cuaderno-docente-v6';
+const CACHE_NAME = 'cuaderno-docente-v7';
 
 const urlsToCache = [
   '/cuaderno-unico-docente-2026/',
